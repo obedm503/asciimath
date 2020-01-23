@@ -1,0 +1,31 @@
+export const symbols: readonly {
+  match: readonly string[];
+  readonly tex: string;
+}[] = [
+  { match: ['+'], tex: '+' },
+  { match: ['int'], tex: 'int' },
+  { match: ['*', 'cdot'], tex: 'cdot' },
+  { match: ['**', 'ast'], tex: 'ast' },
+  { match: ['***', 'star'], tex: '' },
+  { match: ['//'], tex: '' },
+  { match: ['\\\\', 'backslash', 'setminus'], tex: '' },
+  { match: ['xx', 'times'], tex: '' },
+  { match: ['-:', 'div'], tex: '' },
+  { match: ['|><', 'ltimes'], tex: '' },
+  { match: ['><|', 'rtimes'], tex: '' },
+  { match: ['|><|', 'bowtie'], tex: '' },
+  { match: ['@', 'circ'], tex: '' },
+  { match: ['o+', 'oplus'], tex: '' },
+  { match: ['ox', 'otimes'], tex: '' },
+  { match: ['o.', 'odot'], tex: '' },
+  { match: ['sum'], tex: '' },
+  { match: ['prod'], tex: '' },
+  { match: ['^^', 'wedge'], tex: 'wedge' },
+  { match: ['^^^', 'bidwedge'], tex: 'bidwedge' },
+  { match: ['vv', 'vee'], tex: 'vee' },
+  { match: ['vvv', 'bigvee'], tex: 'bigvee' },
+  { match: ['nn', 'cap'], tex: 'cap' },
+  { match: ['nnn', 'bigcap'], tex: 'bigcap' },
+  { match: ['uu', 'cup'], tex: 'cup' },
+  { match: ['uuu', 'bigcup'], tex: 'bigcup' },
+] as const;

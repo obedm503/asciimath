@@ -1,0 +1,34 @@
+{
+  "name": "@obedm503/asciimath",
+  "version": "0.1.0",
+  "description": "utility to convert AsciiMath to TeX",
+  "keywords": [
+    "latex",
+    "tex",
+    "asciimath",
+    "asciimathml",
+    "katex",
+    "math",
+    "typesetting"
+  ],
+  "main": "lib/index.js",
+  "repository": "https://github.com/obedm503/asciimath.git",
+  "author": "obedm503",
+  "license": "MIT",
+  "scripts": {
+    "test": "tsc && ava"
+  },
+  "ava": {
+    "extensions": [
+      "ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ]
+  },
+  "devDependencies": {
+    "ava": "^3.0.0",
+    "ts-node": "^8.6.2",
+    "typescript": "^3.7.5"
+  }
+}
