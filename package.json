@@ -11,24 +11,23 @@
     "math",
     "typesetting"
   ],
-  "main": "lib/index.js",
+  "main": "lib/asciimath.js",
   "repository": "https://github.com/obedm503/asciimath.git",
   "author": "obedm503",
   "license": "MIT",
   "scripts": {
-    "test": "tsc && ava"
-  },
-  "ava": {
-    "extensions": [
-      "ts"
-    ],
-    "require": [
-      "ts-node/register"
-    ]
+    "build": "tsc",
+    "test": "ava --verbose test/*.test.ts"
   },
   "devDependencies": {
+    "@types/katex": "^0.11.0",
+    "@types/lodash": "^4.14.149",
     "ava": "^3.0.0",
+    "katex": "^0.11.1",
     "ts-node": "^8.6.2",
     "typescript": "^3.7.5"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
   }
 }
