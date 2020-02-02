@@ -1,10 +1,14 @@
 import { operations } from './constants';
-import { TexFunction } from './parsers';
+import { parseFunctions, parseSpaces } from './parsers';
 import { AST } from './types';
 import { join } from './util';
 
+const cache: { [key: string]: AST } = {};
 function parse(input: string): AST {
-  const ast: AST = [input];
+  if (cache[input]) {
+    return cache[input];
+  }
+  const ast: AST = parseSpaces(input);
 
   // for (const op of operations.text) {
   //   for (let i = 0; i < ast.length; i++) {
@@ -18,21 +22,14 @@ function parse(input: string): AST {
   //   }
   // }
 
-  for (const op of operations.functions) {
-    for (let i = 0; i < ast.length; i++) {
-      const chunk = ast[i];
-      if (typeof chunk !== 'string') {
-        // chunk has already been processed
-        continue;
-      }
-
-      const parts = TexFunction.parse(op, chunk, parse);
-      if (!parts) {
-        continue;
-      }
-
-      ast.splice(i, 1, ...parts);
+  for (let i = 0; i < ast.length; i++) {
+    const chunk = ast[i];
+    if (typeof chunk !== 'string') {
+      // chunk has already been processed
+      continue;
     }
+    const parts = parseFunctions(chunk, parse);
+    ast.splice(i, 1, ...parts);
   }
 
   for (const op of operations.constants) {
@@ -48,6 +45,7 @@ function parse(input: string): AST {
     }
   }
 
+  cache[input] = ast;
   return ast;
 }
 

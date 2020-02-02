@@ -1,3 +1,4 @@
+import keyBy from 'lodash/keyBy';
 import orderBy from 'lodash/orderBy';
 import {
   ConstantOp,
@@ -221,7 +222,7 @@ export const symbols: readonly Token[] = [
     tex: '\\underline{$$}',
     type: SymbolType.function,
   },
-  { tokens: ['vec($$'], tex: '\\vec{$$}', type: SymbolType.function },
+  { tokens: ['vec($$)'], tex: '\\vec{$$}', type: SymbolType.function },
   { tokens: ['dot($$)'], tex: '\\dot{$$}', type: SymbolType.function },
   { tokens: ['ddot($$)'], tex: '\\ddot{$$}', type: SymbolType.function },
   {
@@ -302,8 +303,16 @@ for (const symbol of symbols) {
         break;
       }
       case SymbolType.function: {
+        const functionName = getFunctionName(token);
+
+        const args = token.match(/\(\$\$\)/g);
+        if (!args) {
+          throw new Error(`badly formated function token: ${functionName}`);
+        }
+
         functions.push({
-          functionName: getFunctionName(token),
+          arity: args.length,
+          functionName,
           match: new RegExp(
             token.replace(/\$\$/g, '.*?').replace(/[()^|]/g, '\\$&'),
             'g',
@@ -347,7 +356,7 @@ for (const symbol of symbols) {
 const tokenLen = (s: Operation) => s.token.length;
 export const operations = {
   text: orderBy(text, tokenLen, 'desc'),
-  functions: orderBy(functions, tokenLen, 'desc'),
+  functions: keyBy(functions, 'functionName'),
   // infix: orderBy(infix, tokenLen, 'desc'),
   constants: orderBy(constants, tokenLen, 'desc'),
 };

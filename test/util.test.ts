@@ -1,11 +1,42 @@
 import test from 'ava';
-import { getFunctionName, join, combine } from '../src/util';
+import {
+  combine,
+  getFirstFunctionArgs,
+  getFunctionName,
+  join,
+} from '../src/util';
 
 test('getFunctionName', t => {
   t.is(getFunctionName('abs($$)'), 'abs');
   t.is(getFunctionName('sqrt($$)'), 'sqrt');
   t.is(getFunctionName('root($$)'), 'root');
   t.is(getFunctionName('ceil($$)'), 'ceil');
+});
+
+test('getFunctionArgs', t => {
+  t.deepEqual(
+    getFirstFunctionArgs({ functionName: 'abs', arity: 1 }, '|a| abs(5) |C|'),
+    { before: '|a| ', args: ['5'], after: ' |C|' },
+  );
+  t.deepEqual(
+    getFirstFunctionArgs({ functionName: 'root', arity: 2 }, 'root(5)(4)'),
+    { before: '', args: ['5', '4'], after: '' },
+  );
+  t.deepEqual(
+    getFirstFunctionArgs({ functionName: 'abs', arity: 1 }, 'abs(x+2) abs(16)'),
+    { before: '', args: ['x+2'], after: ' abs(16)' },
+  );
+  t.deepEqual(
+    getFirstFunctionArgs(
+      { functionName: 'root', arity: 2 },
+      'root(8)(abs(256)) root(2)(6)   sqrt(4)',
+    ),
+    { before: '', args: ['8', 'abs(256)'], after: ' root(2)(6)   sqrt(4)' },
+  );
+  t.deepEqual(
+    getFirstFunctionArgs({ functionName: 'abs', arity: 1 }, 'abs(5)'),
+    { before: '', args: ['5'], after: '' },
+  );
 });
 
 test('join', t => {

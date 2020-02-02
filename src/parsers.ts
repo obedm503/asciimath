@@ -1,39 +1,84 @@
-import { AST, FunctionOp } from './types';
-import { combine } from './util';
+import { operations } from './constants';
+import { Space, TexFunction } from './nodes';
+import { AST, Parse } from './types';
+import { getFirstFunctionArgs } from './util';
 
-const MATCH_ARG = /\((.*?)\)/g;
-export class TexFunction {
-  static parse(
-    op: FunctionOp,
-    input: string,
-    parse: (input: string) => AST,
-  ): undefined | AST {
-    const matches = [...input.matchAll(op.match)];
-    if (!matches.length) {
-      return;
+export function parseFunctions(input: string, parse: Parse): AST {
+  if (input.length === 0) {
+    return [];
+  }
+
+  const MATCH_FUNC = /(\w+)\(/; // matches "name(", functions
+
+  const result = MATCH_FUNC.exec(input);
+
+  if (!result) {
+    return [input];
+  }
+
+  const funcName = result[1];
+  const op = operations.functions[funcName];
+  if (!op) {
+    throw new Error(`unknown function ${funcName}`);
+  }
+
+  const ast: AST = [];
+
+  const { before: pre, args, after: rest } = getFirstFunctionArgs(op, input);
+  {
+    const [before, trimmed, after] = parseSpaces(pre);
+    if (before.length !== 0) {
+      ast.push(before);
     }
-
-    const parts = input.split(op.match);
-
-    return combine(
-      parts,
-      parts.slice(1).map((s, i) => new TexFunction(op, parse, matches[i])),
-    ).filter(Boolean);
+    ast.push(...parseFunctions(trimmed, parse));
+    if (after.length !== 0) {
+      ast.push(after);
+    }
   }
 
-  private args: AST;
-  constructor(
-    private op: FunctionOp,
-    parse: (input: string) => AST,
-    match: RegExpMatchArray,
-  ) {
-    const argMatches = [
-      ...match[0].replace(op.functionName, '').matchAll(MATCH_ARG),
-    ];
-    this.args = argMatches.map(argMatch => parse(argMatch[1])).flat();
+  const parsedArgs = args.map(s => parse(s));
+  const fun = new TexFunction(op, parsedArgs);
+  ast.push(fun);
+
+  {
+    const [before, trimmed, after] = parseSpaces(rest);
+    if (before.length !== 0) {
+      ast.push(before);
+    }
+    ast.push(...parseFunctions(trimmed, parse));
+    if (after.length !== 0) {
+      ast.push(after);
+    }
   }
-  toString() {
-    const parts = this.op.tex.split('$$');
-    return combine(parts, this.args).join('');
+
+  return ast;
+}
+
+export function parseSpaces(input: string): [Space, string, Space] {
+  if (input.length === 0) {
+    return [new Space(0), input, new Space(0)];
   }
+
+  let startSpaces = 0;
+  for (let i = 0; i < input.length; i++) {
+    const char = input[i];
+    if (char === ' ') {
+      startSpaces++;
+    } else {
+      break;
+    }
+  }
+
+  let endSpaces = 0;
+  let len = input.length;
+  while (len--) {
+    const char = input[len];
+    if (char === ' ') {
+      endSpaces++;
+    } else {
+      break;
+    }
+  }
+
+  return [new Space(startSpaces), input.trim(), new Space(endSpaces)];
 }

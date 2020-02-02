@@ -23,6 +23,7 @@ export type FunctionOp = {
   readonly token: string;
   readonly match: RegExp;
   readonly functionName: string;
+  readonly arity: number; // number of function arguments
 };
 export type InfixOp = {
   readonly type: SymbolType.infix;
@@ -31,3 +32,5 @@ export type InfixOp = {
   readonly match: RegExp;
 };
 export type Operation = ConstantOp | TextOp | FunctionOp | InfixOp;
+
+export type Parse = (input: string) => AST;
