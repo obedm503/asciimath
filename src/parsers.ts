@@ -19,7 +19,7 @@ export function parseFunctions(input: string, parse: Parse): AST {
   const funcName = result[1];
   const op = operations.functions[funcName];
   if (!op) {
-    throw new Error(`unknown function ${funcName}`);
+    return [input];
   }
 
   const ast: AST = [];

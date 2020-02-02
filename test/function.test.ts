@@ -21,3 +21,13 @@ test(
 test('|a| |b|  |c| ', '|a| |b|  |c| ');
 
 test('|a| abs(b)  |c| ', '|a| |b|  |c| ');
+
+test(
+  'csdkclskn 2 +4=6 cknsd(34)',
+  'csdkclskn 2 +4=6 cknsd\\lparen{}34\\rparen{}',
+);
+
+test.failing(
+  'csdkclskn( 2 +4=6) cknsd(abs(34)',
+  'csdkclskn\\lparen{} 2 +4=6\\rparen{} cknsd\\lparen{}|34|',
+);
