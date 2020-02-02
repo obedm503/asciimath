@@ -1,5 +1,5 @@
-import keyBy from 'lodash/keyBy';
-import orderBy from 'lodash/orderBy';
+import keyBy from 'lodash-es/keyBy';
+import orderBy from 'lodash-es/orderBy';
 import {
   ConstantOp,
   FunctionOp,
