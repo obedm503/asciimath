@@ -340,7 +340,7 @@ for (const symbol of symbols) {
           token,
           tex: {
             toString() {
-              return `\\${symbol.tex}`;
+              return `\\${symbol.tex}{}`;
             },
           },
           type: symbol.type,
