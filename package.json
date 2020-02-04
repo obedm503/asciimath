@@ -17,11 +17,13 @@
   "esnext": "dist/asciimath.mjs",
   "main": "dist/asciimath.cjs",
   "module": "dist/asciimath.mjs",
+  "browser": "dist/asciimath.js",
   "scripts": {
     "build": "rollup -c",
     "test": "ava --verbose test/*.test.ts"
   },
   "devDependencies": {
+    "@rollup/plugin-commonjs": "^11.0.2",
     "@rollup/plugin-node-resolve": "^7.1.0",
     "@rollup/plugin-typescript": "^3.0.0",
     "@types/katex": "^0.11.0",
@@ -29,6 +31,7 @@
     "ava": "^3.1.0",
     "katex": "^0.11.1",
     "rollup": "^1.31.0",
+    "rollup-plugin-terser": "^5.2.0",
     "ts-node": "^8.6.2",
     "tslib": "^1.10.0",
     "typescript": "^3.7.5"
