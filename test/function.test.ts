@@ -27,7 +27,7 @@ test(
   'csdkclskn 2 +4=6 cknsd\\lparen{}34\\rparen{}',
 );
 
-test.failing(
-  'csdkclskn( 2 +4=6) cknsd(abs(34)',
-  'csdkclskn\\lparen{} 2 +4=6\\rparen{} cknsd\\lparen{}|34|',
+test(
+  '   csdkclskn( 2 +4=6 abs(2))   ckabs(abs(34)',
+  '   csdkclskn\\lparen{} 2 +4=6 |2|\\rparen{}   ckabs\\lparen{}|34|',
 );

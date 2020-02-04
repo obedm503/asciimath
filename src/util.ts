@@ -67,3 +67,7 @@ export function combine<T, TT>(a: T[], b: TT[]): Array<T | TT> {
   }
   return out;
 }
+
+export function splitAt(input: string, index: number): [string, string] {
+  return [input.substring(0, index), input.substring(index)];
+}

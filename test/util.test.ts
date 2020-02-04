@@ -4,6 +4,7 @@ import {
   getFirstFunctionArgs,
   getFunctionName,
   join,
+  splitAt,
 } from '../src/util';
 
 test('getFunctionName', t => {
@@ -65,4 +66,14 @@ test('combine', t => {
     4,
     'd',
   ]);
+});
+
+test('splitAt', t => {
+  t.deepEqual(splitAt('clnskdlkcnsldknc', 3), ['cln', 'skdlkcnsldknc']);
+  t.deepEqual(splitAt('lcskndclskndlkncsdlcns', 6), [
+    'lcsknd',
+    'clskndlkncsdlcns',
+  ]);
+  t.deepEqual(splitAt('sldknclskndc sdsdcn', 9), ['sldknclsk', 'ndc sdsdcn']);
+  t.deepEqual(splitAt('sdlncsidoicnks', 8), ['sdlncsid', 'oicnks']);
 });

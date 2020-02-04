@@ -1,7 +1,7 @@
 import { operations } from './constants';
 import { Space, TexFunction } from './nodes';
 import { AST, Parse } from './types';
-import { getFirstFunctionArgs } from './util';
+import { getFirstFunctionArgs, splitAt } from './util';
 
 export function parseFunctions(input: string, parse: Parse): AST {
   if (input.length === 0) {
@@ -19,7 +19,9 @@ export function parseFunctions(input: string, parse: Parse): AST {
   const funcName = result[1];
   const op = operations.functions[funcName];
   if (!op) {
-    return [input];
+    const splitIndex = result.index + result[0].length;
+    const [didNotMatch, mayMatch] = splitAt(input, splitIndex);
+    return [didNotMatch, ...parseFunctions(mayMatch, parse)];
   }
 
   const ast: AST = [];
