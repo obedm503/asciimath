@@ -31,3 +31,5 @@ test(
   '   csdkclskn( 2 +4=6 abs(2))   ckabs(abs(34)',
   '   csdkclskn\\lparen{} 2 +4=6 |2|\\rparen{}   ckabs\\lparen{}|34|',
 );
+
+test('4=6abs(34)', '4=6|34|');

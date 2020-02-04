@@ -8,7 +8,7 @@ export function parseFunctions(input: string, parse: Parse): AST {
     return [];
   }
 
-  const MATCH_FUNC = /(\w+)\(/; // matches "name(", functions
+  const MATCH_FUNC = /([a-z]+)\(/; // matches "name(", functions
 
   const result = MATCH_FUNC.exec(input);
 
