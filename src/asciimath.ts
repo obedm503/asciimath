@@ -53,7 +53,7 @@ function render(ast: AST): string {
   return ast.join('');
 }
 
-export function asciimath2tex(input: string): string {
+export default function asciimath(input: string): string {
   const ast = parse(input);
 
   return render(ast);

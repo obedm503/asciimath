@@ -1,9 +1,9 @@
 import ava, { Implementation } from 'ava';
 import { renderToString } from 'katex';
-import { asciimath2tex } from '../src/asciimath';
+import asciimath from '../src/asciimath';
 
 const macro = (input: string, expected: string): Implementation => t => {
-  const output = asciimath2tex(input);
+  const output = asciimath(input);
 
   // checks output
   t.is(output, expected);
