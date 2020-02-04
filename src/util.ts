@@ -1,5 +1,5 @@
-import has from 'lodash-es/has';
-import range from 'lodash-es/range';
+import has from 'lodash/has';
+import range from 'lodash/range';
 import { FunctionOp } from './types';
 
 export function join<T, TT>(arr: T[], separator: TT): Array<T | TT> {
