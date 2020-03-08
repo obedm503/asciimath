@@ -9,3 +9,5 @@ test('awedge b', 'a\\wedge{} b');
 test('awedgeb', 'a\\wedge{}b');
 
 test('9 o+ 4', '9 \\oplus{} 4');
+
+test('a != b', 'a \\ne{} b');
