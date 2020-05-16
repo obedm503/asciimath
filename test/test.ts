@@ -2,7 +2,7 @@ import ava, { Implementation } from 'ava';
 import { renderToString } from 'katex';
 import asciimath from '../src/asciimath';
 
-const macro = (input: string, expected: string): Implementation => t => {
+const macro = (input: string, expected: string): Implementation => (t) => {
   const output = asciimath(input);
 
   // checks output
@@ -12,7 +12,8 @@ const macro = (input: string, expected: string): Implementation => t => {
   t.notThrows(() => {
     try {
       renderToString(output, { throwOnError: true });
-    } catch {
+    } catch (e) {
+      t.log(e);
       throw new Error('KaTeX: invalid syntax');
     }
   });
@@ -21,9 +22,9 @@ const macro = (input: string, expected: string): Implementation => t => {
 export default function test(input: string, expected: string) {
   ava(input, macro(input, expected));
 }
-test.only = function(input: string, expected: string) {
+test.only = function (input: string, expected: string) {
   ava.only(input, macro(input, expected));
 };
-test.failing = function(input: string, expected: string) {
+test.failing = function (input: string, expected: string) {
   ava.failing(input, macro(input, expected));
 };
