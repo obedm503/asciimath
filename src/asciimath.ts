@@ -53,7 +53,7 @@ function render(ast: AST): string {
   return ast.join('');
 }
 
-export default function asciimath(input: string): string {
+export function asciimath(input: string): string {
   const ast = parse(input);
 
   return render(ast);
