@@ -19,6 +19,7 @@
   "module": "dist/asciimath.mjs",
   "browser": "dist/asciimath.js",
   "scripts": {
+    "dev": "yarn test --watch",
     "build": "rollup -c",
     "test": "ava --verbose test/*.test.ts"
   },
