@@ -1,7 +1,7 @@
 import { operations } from './constants';
 import { parseFunctions, parseSpaces } from './parsers';
 import { AST } from './types';
-import { join } from './util';
+import { combine, join } from './util';
 
 const cache: { [key: string]: AST } = {};
 function parse(input: string): AST {
@@ -10,17 +10,39 @@ function parse(input: string): AST {
   }
   const ast: AST = parseSpaces(input);
 
-  // for (const op of operations.text) {
-  //   for (let i = 0; i < ast.length; i++) {
-  //     const chunk = ast[i];
-  //     if (typeof chunk !== 'string') {
-  //       // chunk has already been processed
-  //       continue;
-  //     }
+  for (const op of operations.infix) {
+    for (let i = 0; i < ast.length; i++) {
+      const chunk = ast[i];
+      if (typeof chunk !== 'string') {
+        // chunk has already been processed
+        continue;
+      }
 
-  //     // transform
-  //   }
-  // }
+      // transform
+      if (chunk.match(op.match)) {
+        const infix = op.token.split('$$')[1];
+        const infixIndex = chunk.indexOf(infix);
+        const first = chunk.substring(0, infixIndex);
+        const rest = chunk.substring(infixIndex + 1);
+        let endIndex = rest.indexOf(' ');
+        if (endIndex < 0) {
+          endIndex = rest.length;
+        }
+        const second = rest.substring(0, endIndex);
+        ast.splice(
+          i,
+          1,
+          {
+            toString() {
+              const parts = op.tex.split('$$');
+              return combine(parts, [first, second]).join('');
+            },
+          },
+          rest.substring(endIndex + 1),
+        );
+      }
+    }
+  }
 
   for (let i = 0; i < ast.length; i++) {
     const chunk = ast[i];

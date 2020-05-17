@@ -1,13 +1,12 @@
-import { FunctionOp, AST } from './types';
+import flat from 'lodash/flatten';
+import { AST, FunctionOp } from './types';
 import { combine } from './util';
 
 export class TexFunction {
   constructor(private op: FunctionOp, private args: AST[]) {}
   toString() {
     const parts = this.op.tex.split('$$');
-    return combine(parts, this.args)
-      .flat()
-      .join('');
+    return flat(combine(parts, this.args)).join('');
   }
 }
 

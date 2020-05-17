@@ -51,11 +51,11 @@ export const symbols: readonly Token[] = [
 
   // Miscellaneous symbols
   {
-    tokens: ['$$/$$', 'frac{$$}{$$}'],
+    tokens: ['$$/$$' /*, 'frac{$$}{$$}'*/],
     tex: '\\frac{$$}{$$}',
     type: SymbolType.infix,
   },
-  { tokens: ['$$^$$'], tex: '$$^$$', type: SymbolType.infix },
+  // { tokens: ['$$^$$'], tex: '$$^$$', type: SymbolType.infix },
   { tokens: ['sqrt($$)'], tex: '\\sqrt{$$}', type: SymbolType.function },
   {
     tokens: ['root($$)($$)'],
@@ -357,6 +357,6 @@ const tokenLen = (s: Operation) => s.token.length;
 export const operations = {
   text: orderBy(text, tokenLen, 'desc'),
   functions: keyBy(functions, 'functionName'),
-  // infix: orderBy(infix, tokenLen, 'desc'),
+  infix: orderBy(infix, tokenLen, 'desc'),
   constants: orderBy(constants, tokenLen, 'desc'),
 };
